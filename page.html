@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <table class="table">
+        <caption>基本的表格布局</caption>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>名称</th>
+            </tr>
+        </thead>
+        <tbody id="too">
+            <tr  class="danger">
+                <td>Tanmay</td>
+                <td>Bangalore</td>
+            </tr>
+        </tbody>
+        <tr>
+            <td colspan="3">
+                <button type="button" class="btn btn-default page" page="1">首页</button>
+                <button type="button" class="btn btn-default page" page ="prev" id="prev">上一页</button>
+                <button type="button" class="btn btn-default page" page="next" id="next">下一页</button>
+                <button type="button" class="btn btn-default page" page="sumpage" id="sumpage">尾页</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            url:"show.php",
+            type:'get',
+            dataType:'json',
+            success:function (res) {
+                str = "";
+                if(res.code ==0){
+                    $.each(res.data,function (k,v) {
+                        str+='<tr><td>'+v[user_id]+'</td><td>'+v['user_name']+'</td></tr>';
+                    })
+                }
+                $("#too").html(str);
+                $("#prev").attr('prev',data.prev);
+                $("#next").attr('next',data.next);
+                $("#sumpage").attr('sumpage',data.sumpage);
+            }
+    })
+    })
+    $(document).on("click",".page",function () {
+        page = $(this).attr(page);
+        $.ajax({
+            url:"show.php",
+            type:'get',
+            dataType:"json",
+            data:{
+                page:page,
+            },
+            success:function (res) {
+                str = "";
+                if(res.code ==0){
+                    $.each(res.data,function (k,v) {
+                        str+='<tr><td>'+v[user_id]+'</td><td>'+v['user_name']+'</td></tr>';
+                    })
+                }
+                $("#too").html(str);
+                $("#prev").attr('prev',data.prev);
+                $("#next").attr('next',data.next);
+                $("#sumpage").attr('sumpage',data.sumpage);
+            }
+        })
+    })
+
+
+</script>
